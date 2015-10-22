@@ -1,4 +1,4 @@
-package org.jj.fluffuywaffle.jobs;
+package org.jj.fluffywaffle.jobs;
 
 
 import org.quartz.Job;

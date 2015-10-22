@@ -1,6 +1,6 @@
-package org.jj.fluffuywaffle;
+package org.jj.fluffywaffle;
 
-import org.jj.fluffuywaffle.jobs.CheckConnectivityJob;
+import org.jj.fluffywaffle.jobs.CheckConnectivityJob;
 import org.quartz.*;
 
 import static org.quartz.JobBuilder.newJob;
