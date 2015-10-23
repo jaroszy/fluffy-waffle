@@ -1,6 +1,7 @@
 package org.jj.fluffywaffle.jobs;
 
 
+import org.jj.fluffywaffle.selenium.Rebooter;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -14,22 +15,32 @@ public class CheckConnectivityJob implements Job {
 
     private static final String address = "http://www.google.pl";
 
+
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        pingUrl(address);
+        if(!pingUrl(address)){
+            Rebooter.rebootRouter();
+        }
     }
 
     public static boolean pingUrl(final String address) {
         try {
             final URL url = new URL(address);
             final HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+
             urlConn.setConnectTimeout(1000 * 10); // mTimeout is in seconds
+
             final long startTime = System.currentTimeMillis();
+
             urlConn.connect();
+
             final long endTime = System.currentTimeMillis();
+
             if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
                 System.out.println("Time (ms) : " + (endTime - startTime));
                 System.out.println("Ping to "+address +" was success");
+
                 return true;
             }
         } catch (final MalformedURLException e1) {

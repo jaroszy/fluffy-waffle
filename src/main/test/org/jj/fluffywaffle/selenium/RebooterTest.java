@@ -10,8 +10,7 @@ public class RebooterTest extends TestCase {
     public void testRebootRouter() {
 
         // po prostu odpalanie
-        Rebooter rebooter = new Rebooter();
-        rebooter.rebootRouter();
+        //Rebooter.rebootRouter();
 
     }
 }

@@ -10,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class Rebooter {
 
     // reboot rooter using Firefox(!!!!!!!!!) driver
-    public void rebootRouter(){
+    public static void rebootRouter(){
 
         String routerConfigPageUrl = "http://192.168.1.1";
         String adminLogin = "admin";
