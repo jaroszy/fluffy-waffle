@@ -28,10 +28,24 @@ public class Rebooter {
         String buttonClassName = "loginBtn";
         driver.findElement(By.className(buttonClassName)).click();
 
+        String currentWindowHandle = driver.getWindowHandle();
+
+        driver.switchTo().frame("menufrm");
+
         String managementLinkId = "53";
-        driver.findElement(By.id(managementLinkId)).click(); //tu poprawic
+        driver.findElement(By.id(managementLinkId)).click();
 
+        String resetLinkId = "65";
+        driver.findElement(By.id(resetLinkId)).click();
 
-//        driver.close();
+        driver.switchTo().window(currentWindowHandle);
+        driver.switchTo().frame("basefrm");
+
+        buttonClassName = "buttonL";
+        driver.findElement(By.className(buttonClassName)).click();
+
+        driver.switchTo().alert().accept();
+
+        driver.close();
     }
 }
