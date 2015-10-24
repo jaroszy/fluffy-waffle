@@ -2,23 +2,34 @@ package org.jj.fluffywaffle.jobs;
 
 
 import org.jj.fluffywaffle.selenium.Rebooter;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import org.quartz.*;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
+
+import static org.apache.commons.lang3.time.DateUtils.addMinutes;
+import static org.jj.fluffywaffle.jobs.JobRescheduler.delayCurrentJob;
+import static org.jj.fluffywaffle.selenium.Rebooter.rebootRouter;
 
 public class CheckConnectivityJob implements Job {
 
   private static final String address = "http://www.google.pl";
+  private static final int delayInMinutes = 2;
+
+  private Date getDelayedDate(){
+
+    return addMinutes(new Date(), delayInMinutes);
+  }
 
   @Override
   public void execute(JobExecutionContext context) throws JobExecutionException {
+
     if (!pingUrl(address)) {
-      Rebooter.rebootRouter();
+
+      rebootRouter();
+      delayCurrentJob(context, getDelayedDate());
     }
   }
 
