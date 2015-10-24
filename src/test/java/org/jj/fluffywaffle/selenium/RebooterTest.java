@@ -7,10 +7,10 @@ import junit.framework.TestCase;
  */
 public class RebooterTest extends TestCase {
 
-    public void testRebootRouter() {
+  public void testRebootRouter() {
 
-        // po prostu odpalanie
-        //Rebooter.rebootRouter();
+    // po prostu odpalanie
+    //Rebooter.rebootRouter();
 
-    }
+  }
 }
