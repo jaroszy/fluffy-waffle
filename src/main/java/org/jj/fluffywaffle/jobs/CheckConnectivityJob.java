@@ -3,6 +3,8 @@ package org.jj.fluffywaffle.jobs;
 
 import org.jj.fluffywaffle.selenium.Rebooter;
 import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -18,6 +20,8 @@ public class CheckConnectivityJob implements Job {
   private static final String address = "http://www.google.pl";
   private static final int delayInMinutes = 2;
 
+  private static final Logger LOGGER = LoggerFactory.getLogger("CheckConnectivityJob");
+
   private Date getDelayedDate(){
 
     return addMinutes(new Date(), delayInMinutes);
@@ -25,10 +29,11 @@ public class CheckConnectivityJob implements Job {
 
   @Override
   public void execute(JobExecutionContext context) throws JobExecutionException {
-
+    LOGGER.warn("checking router...");
     if (!pingUrl(address)) {
 
       rebootRouter();
+      LOGGER.info("rebooting router...");
       delayCurrentJob(context, getDelayedDate());
     }
   }
@@ -50,6 +55,7 @@ public class CheckConnectivityJob implements Job {
 
         System.out.println("Time (ms) : " + (endTime - startTime));
         System.out.println("Ping to " + address + " was success");
+        LOGGER.info("ping successfull...");
 
         return true;
       }
