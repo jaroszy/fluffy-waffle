@@ -11,16 +11,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
+import static java.lang.System.currentTimeMillis;
+import static java.net.HttpURLConnection.HTTP_OK;
 import static org.apache.commons.lang3.time.DateUtils.addMinutes;
 import static org.jj.fluffywaffle.jobs.JobRescheduler.delayCurrentJob;
 import static org.jj.fluffywaffle.selenium.Rebooter.rebootRouter;
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class CheckConnectivityJob implements Job {
 
   private static final String address = "http://www.google.pl";
-  private static final int delayInMinutes = 2;
+  private static final int delayInMinutes = 10;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger("CheckConnectivityJob");
+  private static final Logger LOGGER = getLogger("CheckConnectivityJob");
 
   private Date getDelayedDate(){
 
@@ -29,11 +32,12 @@ public class CheckConnectivityJob implements Job {
 
   @Override
   public void execute(JobExecutionContext context) throws JobExecutionException {
-    LOGGER.warn("checking router...");
+
     if (!pingUrl(address)) {
 
-      rebootRouter();
       LOGGER.info("rebooting router...");
+
+      rebootRouter();
       delayCurrentJob(context, getDelayedDate());
     }
   }
@@ -45,17 +49,16 @@ public class CheckConnectivityJob implements Job {
 
       urlConn.setConnectTimeout(1000 * 10); // mTimeout is in seconds
 
-      final long startTime = System.currentTimeMillis();
+      final long startTime = currentTimeMillis();
 
       urlConn.connect();
 
-      final long endTime = System.currentTimeMillis();
+      final long endTime = currentTimeMillis();
 
-      if (urlConn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+      if (urlConn.getResponseCode() == HTTP_OK) {
 
-        System.out.println("Time (ms) : " + (endTime - startTime));
-        System.out.println("Ping to " + address + " was success");
-        LOGGER.info("ping successfull...");
+        LOGGER.info("Ping time (ms) : " + (endTime - startTime));
+        LOGGER.info("Ping to " + address + " was success");
 
         return true;
       }
