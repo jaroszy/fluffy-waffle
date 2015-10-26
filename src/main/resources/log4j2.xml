@@ -5,13 +5,14 @@
   </Properties>
   <Appenders>
     <RollingFile name="RollingFile"
-                 fileName="${log-path}/myexample.log"
-                 filePattern="${log-path}/myexample-%d{yyyy-MM-dd}-%i.log">
+                 fileName="${log-path}/fluffy-waffle.log"
+                 filePattern="${log-path}/fluffy-waffle-%d{yyyy-MM-dd}-%i.log">
       <PatternLayout>
         <pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</pattern>
       </PatternLayout>
       <Policies>
         <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <DefaultRolloverStrategy max="30"/>
       </Policies>
     </RollingFile>
   </Appenders>
