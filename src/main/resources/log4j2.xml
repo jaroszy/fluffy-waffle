@@ -6,7 +6,7 @@
   <Appenders>
     <RollingFile name="RollingFile"
                  fileName="${log-path}/fluffy-waffle.log"
-                 filePattern="${log-path}/fluffy-waffle-%d{yyyy-MM-dd}-%i.log">
+                 filePattern="${log-path}/fluffy-waffle-%d{yyyy-MM-dd}.log">
       <PatternLayout>
         <pattern>%d{dd/MMM/yyyy HH:mm:ss,SSS}- %c{1}: %m%n</pattern>
       </PatternLayout>
